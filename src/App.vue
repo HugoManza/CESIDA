@@ -41,6 +41,7 @@
 <script setup>
 import { ref, computed, watch, onMounted } from 'vue'
 import BrandHeader from './components/BrandHeader.vue'
+import aleprueba from './components/Aleprueba.vue'
 
 
 

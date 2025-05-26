@@ -41,7 +41,6 @@
 <script setup>
 import { ref, computed, watch, onMounted } from 'vue'
 import BrandHeader from './components/BrandHeader.vue'
-import aleprueba from './components/Aleprueba.vue'
 
 
 
@@ -69,7 +68,28 @@ const currentSectionName = computed(() => {
 })
 
 // Change section function
+const changeSection = (sectionId) => {
+  // Get section index
+  const currentIndex = sections.findIndex(s => s.id === currentSection.value)
+  const newIndex = sections.findIndex(s => s.id === sectionId)
 
+  if (newIndex === -1) return
+
+  // Determine direction for animation
+  const direction = newIndex > currentIndex ? 'right' : 'left'
+  transitionDirection.value = direction
+  exitDirection.value = direction === 'right' ? 'left' : 'right'
+
+  // Show transition effect
+  showTransitionEffect()
+
+  // Update current section after a short delay
+  setTimeout(() => {
+    currentSection.value = sectionId
+    document.body.className = `theme-${sectionId}`
+    showThemeIndicator()
+  }, 100)
+}
 
 // Show theme indicator
 const showThemeIndicator = () => {
@@ -88,7 +108,9 @@ const showTransitionEffect = () => {
 }
 
 // Handle scroll for sticky header effect
-const handleScroll = () => {}
+const handleScroll = () => {
+  isHeaderMode.value = window.scrollY > .1
+}
 
 // Lifecycle hooks
 onMounted(() => {
